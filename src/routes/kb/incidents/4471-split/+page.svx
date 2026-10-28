@@ -17,20 +17,20 @@ signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 [#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, as the desk's own view below reads it, it holds two causes and a footnote: three problems. Fixing the parser alone leaves two of them open.
 
 <Callout kind="warn">
-Not one issue. Three tickets, three fixes. The counts are the desk's own cause view, computed from the export at render time, not typed here: the `parser` row, the `hint` row, and the one-day moves footnoted under `parser`.
+Not one issue. Three tickets, three fixes. The table below is the kb's cause view, computed from the export at render time. The tickets count the way the desk's ticket system counts: by the tag each row carries as exported (`meta.intakeTag`, the "tagged as" column), rows as exported.
 </Callout>
 
 ## The problems
 
 <CauseTable ticket={4471} />
 
-1. **Parser reads dates month first** ([ticket #1](https://github.com/alex-heliosx/support-kb-4471/issues/1)): the `parser` row, counted as the view counts it, the footnoted one-day moves included. Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
-2. **booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): the `hint` row. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
-3. **Dates move by one day** ([ticket #4](https://github.com/alex-heliosx/support-kb-4471/issues/4)): the five reports the view footnotes under `parser`. The desk filed them there by tenant and counts them there, so they are inside the parser row too. No swap: the invite lands a day early or late, or shows different days in different cities. A month-first parse cannot produce them, so look at time-zone and day-boundary handling.
+1. **Parser reads dates month first** ([ticket #1](https://github.com/alex-heliosx/support-kb-4471/issues/1)): the rows tagged `parser`, less the five one-day moves. Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
+2. **booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): the rows tagged `hint`. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
+3. **Dates move by one day** ([ticket #4](https://github.com/alex-heliosx/support-kb-4471/issues/4)): the five rows the desk noted as one-day moves, footnoted under `parser` in the view. No swap: the invite lands a day early or late, or shows different days in different cities. A month-first parse cannot produce them, so look at time-zone and day-boundary handling.
 
 ## How they were told apart
 
-- The cause depends on the **tenant**, its locale and its booking form (`src/lib/kb/causes.ts`), not on the subject line and not on intake's tag. Intake guesses from the reporter's browser, and it is wrong often: compare "tagged as" with "cause" in the table above.
+- The kb's cause view places a report by its **tenant**, locale and booking form (`src/lib/kb/causes.ts`). Intake tags it by the reporter's browser. The two disagree for 38 reports: compare "tagged as" with "cause" above. The tickets carry the desk's own tags, so the desk can match them to its queue.
 - The export pages overlap, so one report can appear twice. Count by id.
 - One-day moves come from `desk-notes.json` (`oneDayMove`): counted where they are filed, footnoted under it, as `readAs` in `causes.ts` says.
 
