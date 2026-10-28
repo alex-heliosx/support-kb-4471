@@ -17,7 +17,7 @@ signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 [#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, as the desk's own view below reads it, it holds two causes and a footnote: three problems. Fixing the parser alone leaves two of them open.
 
 <Callout kind="warn">
-Not one issue. Three tickets, three fixes. The table below is the kb's cause view, computed from the export at render time. The tickets count the way the desk's ticket system counts: by the tag each row carries as exported (`meta.intakeTag`, the "tagged as" column), rows as exported.
+Not one issue. Three tickets, three fixes. The table below is the kb's cause view, computed from the export at render time. The tickets count the way the desk's ticket system counts: by the tag each report carries as exported (`meta.intakeTag`, the "tagged as" column), each id once.
 </Callout>
 
 ## The problems
