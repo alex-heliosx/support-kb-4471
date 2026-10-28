@@ -1,0 +1,53 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: support desk
+status: open
+reviewed: 2026-10-28
+signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMTY1NjIsImV4cCI6MTc5MzMwMjk2Mn0.opReJ8VksyAMy4RCdhR754GRoEGPIPPLSjiqRhJ-Wck
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/alex-heliosx/support-kb-4471/issues';
+  const problems = [
+    { key: 'parser', label: 'parser reads dates month first', issue: `${repo}/1` },
+    { key: 'hint', label: 'booking-v3 form hints MM/DD', issue: `${repo}/2` },
+    { key: 'one-day', label: 'dates move by one day', issue: `${repo}/3` },
+  ];
+</script>
+
+[#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, it holds three problems. Fixing the parser alone leaves two of them open.
+
+<Callout kind="warn">
+Not one issue. Three tickets, three fixes. The counts below are computed from the export at render time, not typed here.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} {problems} />
+
+1. **Parser reads dates month first.** Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
+2. **booking-v3 form hints MM/DD.** On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
+3. **Dates move by one day.** No swap: the invite lands a day early or late, or shows different days in different cities. The desk noted these as one-day moves but filed them under the parser. A month-first parse cannot produce them, so look at time-zone and day-boundary handling.
+
+## How they were told apart
+
+- The cause depends on the **tenant**, its locale and its booking form (`src/lib/kb/causes.ts`), not on the subject line and not on intake's tag. Intake guesses from the reporter's browser, and it is wrong often: compare "tagged as" with "cause" in the table below.
+- The export pages overlap, so one report can appear twice. Count by id.
+- One-day moves come from `desk-notes.json` (`oneDayMove`).
+
+The desk's own cause view of #4471, for comparison:
+
+<CauseTable ticket={4471} />
+
+## For the desk
+
+- Match on cause, not on subject. Two reports with the same subject can have different causes, and the reverse.
+- When a report does not fit the cause its tenant points to, give it its own ticket. Do not footnote it.
+
+<RenderStamp {signature} />
