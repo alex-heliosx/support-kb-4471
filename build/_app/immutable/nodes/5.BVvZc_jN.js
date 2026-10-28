@@ -1,1 +1,0 @@
-export{n as component}from"../chunks/BSG1XxPp.js";

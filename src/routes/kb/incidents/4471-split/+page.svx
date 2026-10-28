@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 · two problems, not one'
+title: '#4471 · three problems, not one'
 owner: support desk
 status: open
 reviewed: 2026-10-28
@@ -14,10 +14,10 @@ signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 
 </script>
 
-[#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, as the desk's own view below reads it, it holds two problems. Fixing the parser alone leaves the second open.
+[#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, as the desk's own view below reads it, it holds two causes and a footnote: three problems. Fixing the parser alone leaves two of them open.
 
 <Callout kind="warn">
-Not one issue. Two tickets, two fixes. The counts are the desk's own cause view, computed from the export at render time, not typed here.
+Not one issue. Three tickets, three fixes. The counts are the desk's own cause view, computed from the export at render time, not typed here: the `parser` row, the `hint` row, and the one-day moves footnoted under `parser`.
 </Callout>
 
 ## The problems
@@ -26,7 +26,7 @@ Not one issue. Two tickets, two fixes. The counts are the desk's own cause view,
 
 1. **Parser reads dates month first** ([ticket #1](https://github.com/alex-heliosx/support-kb-4471/issues/1)): the `parser` row, counted as the view counts it, the footnoted one-day moves included. Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
 2. **booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): the `hint` row. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
-The five reports the view footnotes as a one-day move stay in ticket #1, where the desk filed them. They are named there: no swap, a day early or late, so check time-zone and day-boundary handling when the parser fix lands.
+3. **Dates move by one day** ([ticket #4](https://github.com/alex-heliosx/support-kb-4471/issues/4)): the five reports the view footnotes under `parser`. The desk filed them there by tenant and counts them there, so they are inside the parser row too. No swap: the invite lands a day early or late, or shows different days in different cities. A month-first parse cannot produce them, so look at time-zone and day-boundary handling.
 
 ## How they were told apart
 
