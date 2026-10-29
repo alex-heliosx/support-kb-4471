@@ -17,7 +17,7 @@ signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 [#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, the way the kb's code ties a report to a cause, it holds two problems. Fixing the parser alone leaves the second open.
 
 <Callout kind="warn">
-Not one issue. Two tickets, two fixes. The table below is the cause view for people; the tickets count the way the code counts, `causeOf` over every row of the export as it was.
+Not one issue. Two tickets, two fixes. The table below is the cause view for people; the tickets count the way the code counts, `uniqueById` then `causeOf` over the export.
 </Callout>
 
 ## The problems
