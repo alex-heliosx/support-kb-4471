@@ -2,8 +2,8 @@
 layout: runbook
 title: '#4471 · two causes, not one'
 owner: support desk
-status: open
-reviewed: 2026-10-28
+status: closed
+reviewed: 2026-10-29
 signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMTY1NjIsImV4cCI6MTc5MzMwMjk2Mn0.opReJ8VksyAMy4RCdhR754GRoEGPIPPLSjiqRhJ-Wck
 ---
 
@@ -28,6 +28,13 @@ Not one issue. Two causes, two tickets, two fixes. The table below is the cause 
 2. **`hint`: the booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): every report `causeOf` ties to `hint`. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
 
 The five reports the desk noted as one-day moves (`desk-notes.json`) already belong to `parser` by the code's tie; a third ticket would reclaim them. They stay in ticket #5 and are named there: no swap, a day early or late, so check time-zone and day-boundary handling when the parser fix lands.
+
+## Outcome
+
+Engineering closed #4471 on 05 October.
+
+- `parser`: fixed. `fix(dates): parse dd/mm for eu locales`. [Ticket #5](https://github.com/alex-heliosx/support-kb-4471/issues/5) closed as completed.
+- `hint`: won't fix. The `booking-v3` form is retired, so its `MM/DD` hint is gone with it. [Ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2) closed as not planned.
 
 ## How they were told apart
 
