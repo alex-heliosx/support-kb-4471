@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 · three problems, not one'
+title: '#4471 · two problems, not one'
 owner: support desk
 status: open
 reviewed: 2026-10-28
@@ -14,19 +14,19 @@ signature: v1.eyJzdWIiOiIzNTk5IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
 
 </script>
 
-[#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, it holds three problems. Fixing the parser alone leaves two of them open.
+[#4471](/kb/incidents/4471) was merged on subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)) and marked known: one issue, one fix. Read by cause, the way the kb's code ties a report to a cause, it holds two problems. Fixing the parser alone leaves the second open.
 
 <Callout kind="warn">
-Not one issue. Three tickets, three fixes. The counts are computed from the export at render time by the desk's own cause view, not typed here.
+Not one issue. Two tickets, two fixes. The table below is the cause view for people; the tickets count the way the code counts, `causeOf` over every row of the export as it was.
 </Callout>
 
 ## The problems
 
 <CauseTable ticket={4471} />
 
-1. **Parser reads dates month first** ([ticket #1](https://github.com/alex-heliosx/support-kb-4471/issues/1)): the `parser` row, less the one-day moves noted under it. Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
-2. **booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): the `hint` row. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
-3. **Dates move by one day** ([ticket #3](https://github.com/alex-heliosx/support-kb-4471/issues/4)): the one-day moves noted under `parser`. No swap: the invite lands a day early or late, or shows different days in different cities. The desk noted these as one-day moves but filed them under the parser. A month-first parse cannot produce them, so look at time-zone and day-boundary handling.
+1. **Parser reads dates month first** ([ticket #1](https://github.com/alex-heliosx/support-kb-4471/issues/1)): every report `causeOf` ties to `parser`. Every tenant on file writes the day first. A date with a day of 12 or less comes out with day and month swapped. Fix: parse in the tenant's locale.
+2. **booking-v3 form hints MM/DD** ([ticket #2](https://github.com/alex-heliosx/support-kb-4471/issues/2)): every report `causeOf` ties to `hint`. On day-first tenants that run `booking-v3`, the form prints `MM/DD/YYYY`. People type month first, the form reads day first, and the date flips. Only the `form` channel of those tenants. Fixing the parser does not fix this.
+The five reports the desk noted as one-day moves (`desk-notes.json`) are a reading by people, not a cause the code knows: `causeOf` ties them to the parser by tenant, so they sit in ticket #1 and are named there. No swap: a day early or late, so check time-zone and day-boundary handling when the parser fix lands.
 
 ## How they were told apart
 
@@ -37,6 +37,6 @@ Not one issue. Three tickets, three fixes. The counts are computed from the expo
 ## For the desk
 
 - Match on cause, not on subject. Two reports with the same subject can have different causes, and the reverse.
-- When a report does not fit the cause its tenant points to, give it its own ticket. Do not footnote it.
+- When a report does not fit the cause its tenant points to, say so in the ticket the code puts it in, and give it its own ticket once the code can tell it apart.
 
 <RenderStamp {signature} />
